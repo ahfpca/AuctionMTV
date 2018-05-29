@@ -1,0 +1,35 @@
+    .jumbotron {
+        background-image: url('../img/landing.jpeg');
+        height: 100%;
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-position-y: -100px;
+    }
+
+    body {
+        padding-bottom: 70px;
+    }
+
+    .navbar {
+        background-color: goldenrod;
+    }
+
+    h1 {
+        margin-top: 200px;
+        color: goldenrod;
+        font-size: 100px;
+        vertical-align: bottom;
+    }
+
+    .main {
+        margin-top: 0px;
+    }
+
+    .login {
+        width: 75%;
+        margin-bottom: 10px;
+    }
+
+    ul {
+        list-style-type: none;
+    }

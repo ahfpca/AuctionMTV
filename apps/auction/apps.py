@@ -1,5 +1,5 @@
 from django.apps import AppConfig
 
 
-class AuctionConfig(AppConfig):
-    name = 'auction'
+class DjangoAppConfig(AppConfig):
+    name = 'django_app'

@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>AuctionMTV</title>
+    {% load static %}
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB"
+        crossorigin="anonymous">
+    <link rel="stylesheet" href="{% static 'auction/css/index.css' %}">
+    <script src="main.js"></script>
+</head>
+<!-- <style>
+    .jumbotron {
+        background-image: url('/landing.jpeg');
+        height: 100%;
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-position-y: -100px;
+    }
+
+    body {
+        padding-bottom: 70px;
+    }
+
+    .navbar {
+        background-color: goldenrod;
+    }
+
+    h1 {
+        margin-top: 200px;
+        color: goldenrod;
+        font-size: 100px;
+        vertical-align: bottom;
+    }
+
+    .main {
+        margin-top: 0px;
+    }
+
+    .login {
+        width: 75%;
+        margin-bottom: 10px;
+    }
+
+    ul {
+        list-style-type: none;
+    }
+</style> -->
+
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="#">AuctionMTV</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+            aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+                <!-- <li class="nav-item active">
+                    <a class="nav-link" href="user_dash/index.html">Home
+                        <span class="sr-only">(current)</span>
+                    </a>
+                </li> -->
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true"
+                        aria-expanded="false">
+                        Auctions
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item" href="auction/by_title">By Title</a>
+                        <a class="dropdown-item" href="auction/by_categ">By Category</a>
+                        <!-- <div class="dropdown-divider"></div>
+                                        <a class="dropdown-item" href="#">Something else here</a>
+                                    </div> -->
+                </li>
+                <!-- <li class="nav-item">
+                                    <a class="nav-link disabled" href="#">Disabled</a>
+                                </li> -->
+            </ul>
+            <form class="form-inline my-2 my-lg-0">
+                <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+                <p>&nbsp;&nbsp;</p>
+            </form>
+
+            <div class="dropdown">
+                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true"
+                    aria-expanded="false">
+                    John Doe
+                </button>
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                    <a class="dropdown-item" href="user_dash/index.html">Dashboard</a>
+                    <a class="dropdown-item" href="#">Account</a>
+                    <a class="dropdown-item" href="#">Log out</a>
+                </div>
+            </div>
+            </div>
+    </nav>
+    <!-- Main -->
+    <div class="main jumbotron text-center">
+        <h1>AuctionMTV</h1>
+    </div>
+
+    <!-- Login form  -->
+    <div class="login container text-center">
+
+        <div class="row">
+            <div class="col-md-6">
+                <h2>Movies</h2>
+                <ul class="list-group">
+                    <li>
+                        <a href="#" class="list-group-item d-flex justify-content-between align-items-center">Titles
+                            <span class="badge badge-primary badge-pill">10</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" class="list-group-item d-flex justify-content-between align-items-center">Auctions
+                            <span class="badge badge-primary badge-pill">20</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+
+
+            <div class="col-md-6">
+                <h2>Television Shows</h2>
+                <ul class="list-group">
+                    <li>
+                        <a href="#" class="list-group-item d-flex justify-content-between align-items-center">Titles
+                            <span class="badge badge-primary badge-pill">20</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" class="list-group-item d-flex justify-content-between align-items-center">Auctions
+                            <span class="badge badge-primary badge-pill">10</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+            crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+            crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js" integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T"
+            crossorigin="anonymous"></script>
+</body>
+
+</html>
