@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <!-- {% load static %} -->
+    <!-- Bootstrap -->
+    <!-- <link rel="stylesheet" href="{% static 'login/css/bootstrap.min.css' %}"> -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
+    <style>
+        .error {
+            color: red;
+            margin-top: -8px;
+        }
+
+        .message {
+            color: green;
+        }
+
+        .red {
+            color: red;
+        }
+
+        .green {
+            color: green;
+        }
+
+        label {
+            margin-bottom: 0px;
+        }
+
+        .dField {
+            margin-top: 10px;
+        }
+
+        h3 {
+            margin-left: -15px;
+        }
+
+        /*
+        body {
+            background-color: rgb(22, 19, 16);
+            color: rgb(133, 113, 93);
+        }
+
+        input {
+            background-color: rgb(22, 19, 16);
+            color: rgb(133, 113, 93);
+            border-color: darkgray;
+        }
+        /**/
+
+    </style>
+    <title>User Dashboard</title>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand" href="../index.html">AuctionMTV</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+            <!-- <li class="nav-item active">
+                <a class="nav-link" href="../index.html">Home<span class="sr-only">(current)</span></a>
+            </li> -->
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Auctions
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                <!-- <a class="dropdown-item" href="../auction/auctionlist.html">All Auctions</a> -->
+                <a class="dropdown-item" href="../auction/by_title.html">By Title</a>
+                <a class="dropdown-item" href="../auction/by_categ.html">By Category</a>
+                <!-- <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" href="#">Something else here</a>
+                </div> -->
+            </li>
+            <!-- <li class="nav-item">
+                <a class="nav-link disabled" href="#">Disabled</a>
+            </li> -->
+        </ul>
+        <form class="form-inline my-2 my-lg-0">
+        <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+        <p>&nbsp;&nbsp;</p>
+        </form>
+
+        <div class="dropdown">
+                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    John Doe
+                </button>
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                    <a class="dropdown-item" href="#">Account</a>
+                    <a class="dropdown-item" href="#">Log out</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+    <div class="container">
+        <br>
+        <h1 class="text-center">User Dashboard</h1>
+        <div class="row">
+        <!-- General Error -->
+        <!-- {% if messages %}
+            {% for message in messages %}
+                {% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR and message.extra_tags == 'general' %}
+                    <h4 class="col-12 error text-center">{{ message }}</h4>
+                {% endif %}
+            {% endfor %}
+        {% endif %} -->
+        <!-- General Message -->
+        <!-- {% if messages %}
+            {% for message in messages %}
+                {% if message.level != DEFAULT_MESSAGE_LEVELS.ERROR %}
+                    <h4 class="col-12 message text-center">{{ message }}</h4>
+                {% endif %}
+            {% endfor %}
+        {% endif %} -->
+        </div>
+        <br>
+        <div class="row">
+            <!-- Tab section -->
+            <ul class="nav nav-tabs" id="userTab" role="tablist">
+                <li class="nav-item">
+                    <a class="nav-link active" id="auctions-tab" data-toggle="tab" href="#auctions" role="tab" aria-controls="auctions" aria-selected="true">Posted Auctions</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="bids-tab" data-toggle="tab" href="#bids" role="tab" aria-controls="bids" aria-selected="false">Posted Bids</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="messages-tab" data-toggle="tab" href="#messages" role="tab" aria-controls="messages" aria-selected="false">Messages</a>
+                </li>
+            </ul>
+            <div class="tab-content col-12" id="userTabContent">
+                <!-- Auctions Tab -->
+                <div class="tab-pane fade show active" id="auctions" role="tabpanel" aria-labelledby="auctions-tab">
+                    <!-- Auctions List section -->
+                    <br>
+                    <div class="col-12">
+                        <h3 class="text-center alert-warning">Posted Auctions</h3>
+                        <table class="table table-bordered table-hover table-sm">
+                            <thead>
+                                <tr>
+                                    <th scope="col" class="text-center">#</th>
+                                    <th scope="col" class="text-center">Date</th>
+                                    <th scope="col">Title</th>
+                                    <th scope="col">Category</th>
+                                    <th scope="col" class="text-center">Companies</th>
+                                    <th scope="col" class="text-center">Deadline</th>
+                                    <th scope="col" class="text-center">Bids</th>
+                                    <th scope="col" class="text-center">Max Bid</th>
+                                    <th scope="col" class="text-center">State</th>
+                                    <th scope="col" class="text-center">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <th scope="row" class="text-center">1</th>
+                                    <td class="text-center">5/25/2018</td>
+                                    <td>Blacklist S5-E10</td>
+                                    <td>Cell Phones</td>
+                                    <td class="text-center">Level 2</td>
+                                    <td class="text-center">5/30/2018</td>
+                                    <td class="text-center">8</td>
+                                    <td class="text-right">$18,000</td>
+                                    <td class="text-center">Open</td>
+                                    <td class="text-center">
+                                        <button class="btn btn-danger btn-sm">Delete</button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th scope="row" class="text-center">2</th>
+                                    <td class="text-center">5/25/2018</td>
+                                    <td>Blacklist S5-E10</td>
+                                    <td>Cars</td>
+                                    <td class="text-center">Level 2</td>
+                                    <td class="text-center">5/30/2018</td>
+                                    <td class="text-center">3</td>
+                                    <td class="text-right">$13,000</td>
+                                    <td class="text-center">Open</td>
+                                    <td class="text-center">
+                                        <button class="btn btn-danger btn-sm">Delete</button>
+                                    </td>
+                                </tr>
+                                <tr class="alert-danger">
+                                    <th scope="row" class="text-center">3</th>
+                                    <td class="text-center">5/18/2018</td>
+                                    <td>Blacklist S5-E9</td>
+                                    <td>Drinks</td>
+                                    <td class="text-center">Level 2</td>
+                                    <td class="text-center">5/25/2018</td>
+                                    <td class="text-center">15</td>
+                                    <td class="text-right">$8,500</td>
+                                    <td class="text-center">Closed</td>
+                                    <td class="text-center">
+                                        <button class="btn btn-success btn-sm">Connect to Winner</button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th scope="row" class="text-center">4</th>
+                                    <td class="text-center">5/9/2018</td>
+                                    <td>Avengers: Peacemaker</td>
+                                    <td>Laptops</td>
+                                    <td class="text-center">Level 1</td>
+                                    <td class="text-center">5/30/2018</td>
+                                    <td class="text-center">6</td>
+                                    <td class="text-right">$118,000</td>
+                                    <td class="text-center">Open</td>
+                                    <td class="text-center">
+                                        <button class="btn btn-danger btn-sm">Delete</button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th scope="row" class="text-center">5</th>
+                                    <td class="text-center">5/9/2018</td>
+                                    <td>Avengers: Peacemaker</td>
+                                    <td>Cars</td>
+                                    <td class="text-center">Level 1</td>
+                                    <td class="text-center">5/30/2018</td>
+                                    <td class="text-center">0</td>
+                                    <td class="text-right">$0</td>
+                                    <td class="text-center">Open</td>
+                                    <td class="text-center">
+                                        <button class="btn btn-primary btn-sm">Edit</button>
+                                        <button class="btn btn-danger btn-sm">Delete</button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <button class="btn btn-primary">New Auction</button>
+                    </div>
+                </div>
+                <!-- Bids Tab -->
+                <div class="tab-pane fade" id="bids" role="tabpanel" aria-labelledby="bids-tab">
+                    <!-- Bids List section -->
+                    <br>
+                    <div class="col-12">
+                        <h3 class="text-center alert-primary">Posted Bids</h3>
+                        <table class="table table-bordered table-hover table-sm">
+                            <thead>
+                                <tr>
+                                    <th scope="col" class="text-center">#</th>
+                                    <th scope="col" class="text-center">Date</th>
+                                    <th scope="col">Title</th>
+                                    <th scope="col">Type</th>
+                                    <th scope="col">Category</th>
+                                    <th scope="col" class="text-center">Deadline</th>
+                                    <th scope="col" class="text-center">Bids</th>
+                                    <th scope="col" class="text-center">Max Bid</th>
+                                    <th scope="col" class="text-center">Your Bid</th>
+                                    <th scope="col" class="text-center">State</th>
+                                    <th scope="col" class="text-center">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="alert-success">
+                                    <th scope="row" class="text-center">1</th>
+                                    <td class="text-center">5/10/2018</td>
+                                    <td>Indiana Jones - Next Project</td>
+                                    <td>Movie</td>
+                                    <td>Drinks</td>
+                                    <td class="text-center">6/30/2018</td>
+                                    <td class="text-center">3</td>
+                                    <td class="text-right">$18,000</td>
+                                    <td class="text-right">$18,000</td>
+                                    <td class="text-center">Open</td>
+                                    <td class="text-center">
+                                        <!-- <button class="btn btn-secondary btn-sm disabled">New Bid</button> -->
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th scope="row" class="text-center">2</th>
+                                    <td class="text-center">5/5/2018</td>
+                                    <td>Father Figure</td>
+                                    <td>Movie</td>
+                                    <td>Drinks</td>
+                                    <td class="text-center">6/15/2018</td>
+                                    <td class="text-center">2</td>
+                                    <td class="text-right">$13,000</td>
+                                    <td class="text-right">$10,000</td>
+                                    <td class="text-center">Open</td>
+                                    <td class="text-center">
+                                        <button class="btn btn-danger btn-sm">New Bid</button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th scope="row" class="text-center">3</th>
+                                    <td class="text-center">5/9/2018</td>
+                                    <td>Supernatural S13-E8</td>
+                                    <td>TV Series</td>
+                                    <td>Drinks</td>
+                                    <td class="text-center">5/30/2018</td>
+                                    <td class="text-center">10</td>
+                                    <td class="text-right">$8,000</td>
+                                    <td class="text-right">$7,500</td>
+                                    <td class="text-center">Open</td>
+                                    <td class="text-center">
+                                        <button class="btn btn-danger btn-sm">New Bid</button>
+                                    </td>
+                                </tr>
+                                <tr class="alert-success">
+                                    <th scope="row" class="text-center">4</th>
+                                    <td class="text-center">5/8/2018</td>
+                                    <td>Mist</td>
+                                    <td>TV Series</td>
+                                    <td>Drinks</td>
+                                    <td class="text-center">5/24/2018</td>
+                                    <td class="text-center">15</td>
+                                    <td class="text-right">$8,500</td>
+                                    <td class="text-right">$8,500</td>
+                                    <td class="text-center">Closed</td>
+                                    <td class="text-center">
+                                        <button class="btn btn-success btn-sm">Pay the Auction</button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <!-- Messages Tab -->
+                <div class="tab-pane fade" id="messages" role="tabpanel" aria-labelledby="messages-tab">
+                    <!-- Messages List section -->
+                    <br>
+                    <div class="col-12">
+                        <h3 class="text-center alert-secondary">Messages</h3>
+                        <table class="table table-bordered table-hover table-sm">
+                            <thead>
+                                <tr>
+                                    <th scope="col" class="text-center">#</th>
+                                    <th scope="col" class="text-center">Date</th>
+                                    <th scope="col">Title</th>
+                                    <th scope="col">Message</th>
+                                    <!-- <th scope="col" class="text-center">Action</th> -->
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <th scope="row" class="text-center">1</th>
+                                    <td class="text-center">5/25/2018</td>
+                                    <td>Blacklist S5-E10</td>
+                                    <td>New auction initiated at 5/25/2018 in 'Drinks' category <a href="#">check it out</a></td>
+                                    <!-- <td class="text-center">
+                                        <button class="btn btn-success btn-sm">Pay the Auction</button>
+                                    </td> -->
+                                </tr>
+                                <tr>
+                                    <th scope="row" class="text-center">2</th>
+                                    <td class="text-center">5/24/2018</td>
+                                    <td>Mist TV Series</td>
+                                    <td class="green">Congratulation! You won the auction at 5/24/2018 in 'Drinks' category, please proceed to payment</td>
+                                    <!-- <td class="text-center">
+                                        <button class="btn btn-success btn-sm">Pay the Auction</button>
+                                    </td> -->
+                                </tr>
+                                <tr>
+                                    <th scope="row" class="text-center">3</th>
+                                    <td class="text-center">5/23/2018</td>
+                                    <td>Arrow TV Series</td>
+                                    <td class="red">Sorry! Auction closed at 5/23/2018 and you lost it, the winner offered $9,000 and your offer was $7,500</td>
+                                    <!-- <td class="text-center">
+                                        <button class="btn btn-success btn-sm">Pay the Auction</button>
+                                    </td> -->
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Bootstrap -->
+    <!-- 
+    <script type="text/javascript" src="{% static 'login/js/jquery-3.3.1.slim.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'login/js/popper.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'login/js/bootstrap.min.js' %}"></script>         
+    -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js" integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T" crossorigin="anonymous"></script>
+</body>
+</html>

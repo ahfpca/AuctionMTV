@@ -36,7 +36,7 @@ class MediaManager(models.Manager):
         return errors
 
 
-class Genre (models.Model):
+class Genre(models.Model):
     genre_id = models.AutoField(primary_key=True)
     genre_name = models.CharField(max_length=255)
     created_at = models.DateTimeField(auto_now_add=True)
@@ -46,7 +46,7 @@ class Genre (models.Model):
         return "<Genre object: genre_id {}, genre_name: {}>".format(self.genre_id, self.genre_name)
 
 
-class Media (models.Model):
+class Media(models.Model):
     media_id = models.AutoField(primary_key=True)
     media_title = models.CharField(max_length=255)
     release_year = models.IntegerField()
@@ -62,7 +62,7 @@ class Media (models.Model):
         return "<Media object: media_id {}, media_title: {}, fk_genre: {}, release_year: {}, media_type: {}>".format(self.media_id, self.media_title, self.fk_genre, self.release_year, self.media_type)
 
 
-class Category (models.Model):
+class Category(models.Model):
     category_id = models.AutoField(primary_key=True)
     category_name = models.CharField(max_length=255)
     created_at = models.DateTimeField(auto_now_add=True)
@@ -72,7 +72,7 @@ class Category (models.Model):
         return "<Category object: category_id {}, category_name: {}>".format(self.category_id, self.category_name)
 
 
-class Auction (models.Model):
+class Auction(models.Model):
     auction_id = models.AutoField(primary_key=True)
     title = models.CharField(max_length=255)
     description = models.CharField(max_length=500)
@@ -92,7 +92,7 @@ class Auction (models.Model):
         return "<Auction object: auction_id {}, title: {}, desciption: {}, duration: {}, starting_bid: {}, deadline: {}, fk_category: {}, fk_media: {}>".format(self.auction_id, self.title, self.description, self.duration_seconds, self.starting_bid, self.deadline, self.fk_category, self.fk_media)
 
 
-class Bid (models.Model):
+class Bid(models.Model):
     bid_id = models.AutoField(primary_key=True)
     bid_amount = models.FloatField()
     created_at = models.DateTimeField(auto_now_add=True)

@@ -17,76 +17,20 @@ def sign_up(request):
         return redirect("/login_reg/success")
 
     return render(request, "login_reg/sign_up.html")
-
-
-def edit(request):
-    if not "user_uniq" in request.session:
-        return redirect("/login_reg")
-    else:
-        hashed_uniq_id = request.session["user_uniq"]
-
-        rec = User.objects.filter(user_uniq = hashed_uniq_id).first()
-
-        if rec:
-            request.session["first_name"] = rec.first_name
-            request.session["last_name"] = rec.last_name
-            request.session["email"] = rec.email
-            return render(request, "login_reg/edit.html")
-
-    # if user_uniq is present but is not found in db, then it should be altered!
-    request.session.clear()        
-    return render(request, "login_reg/login.html")
-
-
-def update(request):
-    if not "user_uniq" in request.session:
-        return redirect("/login_reg/success")
-
-    first_name = request.POST["first_name"].strip()
-    last_name = request.POST["last_name"].strip()
-    email = request.POST["email"].strip()
-
-    hashed_uniq_id = request.session["user_uniq"]
-
-    if request.method == "POST":
-        errors = User.objects.record_validator(request.POST, hashed_uniq_id, True)
-
-        if len(errors):
-            # Return errors to template
-            for key, value in errors.items():
-                messages.add_message(request, level = 40, message = value, extra_tags = key)
-                request.session["first_name"] = first_name
-                request.session["last_name"] = last_name
-                request.session["email"] = email
-
-            return render(request, "login_reg/edit.html")
-        else:
-            # Update current user
-            rec = User.objects.filter(user_uniq = hashed_uniq_id).first()
-
-            if rec:
-                rec.first_name = first_name
-                rec.last_name = last_name
-                rec.email = email
-                rec.save()
-            else:
-                messages.add_message(request, level = 40, message = "Something went wrong! Record didn't save.", extra_tags = 'general')
-                return redirect("/login_reg/edit")
-
-    return redirect("/login_reg/success")
     
 
 def logout(request):
-    if request.method == "POST":
-        request.session.clear()
-        return redirect("/login_reg")
+    # if request.method == "POST":
+    #     request.session.clear()
+    #     return redirect("/login_reg/success")
 
+    request.session.clear()
     return redirect("/login_reg/success")
 
 
 def success(request):
     if not "user_uniq" in request.session:
-        return redirect("/login_reg")
+        return redirect("/auction")
     else:
         hashed_uniq_id = request.session["user_uniq"]
         #print("\n", "%" * 40)
@@ -97,7 +41,7 @@ def success(request):
             request.session["user_full_name"] = rec.first_name + " " + rec.last_name
             return redirect("/auction")
 
-    return redirect("/login_reg")
+    return redirect("/auction")
 
 
 def confirm(request):
@@ -125,9 +69,9 @@ def confirm(request):
         else:
             messages.error(request, "You can not login to the website!", extra_tags = "general")
             #messages.error(request, "You can not login to the website!")
-            return redirect("/login_reg")
+            return redirect("/login_reg/success")
 
-    return redirect("/login_reg")
+    return redirect("/login_reg/success")
 
 
 def register(request):
@@ -150,7 +94,7 @@ def register(request):
                 request.session["last_name"] = last_name
                 request.session["email"] = email
 
-            return redirect("/login_reg")
+            return redirect("/login_reg/sign_up")
         else:
             # Create new user
             hashed_pass = bcrypt.hashpw(passcode.encode(), bcrypt.gensalt())
@@ -171,6 +115,6 @@ def register(request):
                 messages.success(request, "You registration was successfull!")
             else:
                 messages.add_message(request, level = 40, message = "Something went wrong! Record didn't save.", extra_tags = 'general')
-                return redirect("/login_reg")
+                return redirect("/login_reg/sign_up")
 
     return redirect("/login_reg/success")
