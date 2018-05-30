@@ -35,7 +35,7 @@ INSTALLED_APPS = [
     'apps.user_dash',
     'apps.admin_dash',
     'apps.auction',
-    'django_render_partial',
+    # 'django_render_partial',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
