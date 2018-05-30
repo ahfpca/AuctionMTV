@@ -99,3 +99,4 @@ class Bid (models.Model):
 
     def __repr__(self):
         return "<Bid object: bid_id {}>".format(self.bid_id, self.fk_auction)
+    
