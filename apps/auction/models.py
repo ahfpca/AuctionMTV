@@ -1,4 +1,5 @@
 from django.db import models
+from apps.login_reg.models import *
 import datetime
 import re
 CURRENCY_REGEX = re.compile(r'^\d+(?:\.\d+)?')
@@ -48,11 +49,12 @@ class Genre (models.Model):
 class Media (models.Model):
     media_id = models.AutoField(primary_key=True)
     media_title = models.CharField(max_length=255)
-    fk_genre = models.ForeignKey(Genre, related_name="fk_media", on_delete=models.CASCADE)
     release_year = models.IntegerField()
     media_type = models.SmallIntegerField()
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+    fk_genre = models.ForeignKey(Genre, related_name="fk_genre_medias", on_delete=models.CASCADE)
+    fk_user = models.ForeignKey(User, related_name="fk_user_medias", on_delete=models.CASCADE)
 
     objects = MediaManager()
 
@@ -77,12 +79,12 @@ class Auction (models.Model):
     duration_seconds = models.IntegerField()
     starting_bid = models.FloatField()
     current_bid = models.FloatField()
+    deadline = models.DateTimeField(auto_now=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-    deadline = models.DateTimeField(auto_now=True)
-    fk_category = models.ForeignKey(Category, related_name="fk_auction", on_delete=models.CASCADE)
-    fk_media = models.ForeignKey(Media, related_name="fk_auction", on_delete=models.CASCADE)
-    # fk_user = models.ForeignKey(User, related_name="fk_auction", on_delete=models.CASCADE)
+    fk_category = models.ForeignKey(Category, related_name="fk_category_auctions", on_delete=models.CASCADE)
+    fk_media = models.ForeignKey(Media, related_name="fk_media_auctions", on_delete=models.CASCADE)
+    fk_user = models.ForeignKey(User, related_name="fk_user_auctions", on_delete=models.CASCADE)
 
     objects = AuctionManager()
     
@@ -92,10 +94,10 @@ class Auction (models.Model):
 
 class Bid (models.Model):
     bid_id = models.AutoField(primary_key=True)
-    fk_auction = models.ForeignKey(Auction, related_name="fk_bid", on_delete=models.CASCADE)
-    # fk_user = models.ForeignKey(User, related_name="fk_auction", on_delete=models.CASCADE)
     bid_amount = models.FloatField()
     created_at = models.DateTimeField(auto_now_add=True)
+    fk_auction = models.ForeignKey(Auction, related_name="fk_auction_bids", on_delete=models.CASCADE)
+    fk_user = models.ForeignKey(User, related_name="fk_user_bids", on_delete=models.CASCADE)
 
     def __repr__(self):
         return "<Bid object: bid_id {}>".format(self.bid_id, self.fk_auction)
