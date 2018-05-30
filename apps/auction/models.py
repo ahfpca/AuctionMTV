@@ -48,7 +48,7 @@ class Genre (models.Model):
 class Media (models.Model):
     media_id = models.AutoField(primary_key=True)
     media_title = models.CharField(max_length=255)
-    fk_genre = models.ForeignKey(Genre, related_name="fk_media")
+    fk_genre = models.ForeignKey(Genre, related_name="fk_media", on_delete=models.CASCADE)
     release_year = models.IntegerField()
     media_type = models.SmallIntegerField()
     created_at = models.DateTimeField(auto_now_add=True)
@@ -80,9 +80,9 @@ class Auction (models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     deadline = models.DateTimeField(auto_now=True)
-    fk_category = models.ForeignKey(Category, related_name="fk_auction", null=True)
-    fk_media = models.ForeignKey(Media, related_name="fk_auction", null=True)
-    # fk_user = models.ForeignKey(User, related_name="fk_auction")
+    fk_category = models.ForeignKey(Category, related_name="fk_auction", on_delete=models.CASCADE)
+    fk_media = models.ForeignKey(Media, related_name="fk_auction", on_delete=models.CASCADE)
+    # fk_user = models.ForeignKey(User, related_name="fk_auction", on_delete=models.CASCADE)
 
     objects = AuctionManager()
     
@@ -92,8 +92,8 @@ class Auction (models.Model):
 
 class Bid (models.Model):
     bid_id = models.AutoField(primary_key=True)
-    fk_auction = models.ForeignKey(Auction, related_name="fk_bid")
-    # fk_user = models.ForeignKey(User, related_name="fk_auction")
+    fk_auction = models.ForeignKey(Auction, related_name="fk_bid", on_delete=models.CASCADE)
+    # fk_user = models.ForeignKey(User, related_name="fk_auction", on_delete=models.CASCADE)
     bid_amount = models.FloatField()
     created_at = models.DateTimeField(auto_now_add=True)
 
