@@ -5,84 +5,119 @@
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>Auctions - by Title</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    {% load static %}
+    <meta name="viewport" content="width=device-width, initial-scale=1"> {% load static %}
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB"
+        crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp"
         crossorigin="anonymous">
     <link rel="stylesheet" href="{% static 'auction/css/main.css' %}">
 </head>
-
+<style>
+    i {
+        padding-right: 10px;
+    }
+</style>
 
 <body>
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <a class="navbar-brand" href="#">AuctionMTV</a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
-                aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+            aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
 
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="navbar-nav mr-auto">
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true"
-                            aria-expanded="false">
-                            Auctions
-                        </a>
-                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <a class="dropdown-item" href="by_title">By Title</a>
-                            <a class="dropdown-item" href="by_categ">By Category</a>
-                            <!-- <div class="dropdown-divider"></div>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true"
+                        aria-expanded="false">
+                        Auctions
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item" href="by_title">By Title</a>
+                        <a class="dropdown-item" href="by_categ">By Category</a>
+                        <!-- <div class="dropdown-divider"></div>
                                 <a class="dropdown-item" href="#">Something else here</a>
                             </div> -->
-                    </li>
-                    <!-- <li class="nav-item">
+                </li>
+                <!-- <li class="nav-item">
                             <a class="nav-link disabled" href="#">Disabled</a>
                         </li> -->
-                </ul>
-                <form class="form-inline my-2 my-lg-0">
-                    <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-                    <p>&nbsp;&nbsp;</p>
-                </form>
+            </ul>
+            <form class="form-inline my-2 my-lg-0">
+                <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+                <p>&nbsp;&nbsp;</p>
+            </form>
 
-                <div class="dropdown">
-                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true"
-                        aria-expanded="false">
-                        John Doe
-                    </button>
-                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                        <a class="dropdown-item" href="#">Account</a>
-                        <a class="dropdown-item" href="../user_dash/index.html">Account</a>
-                        <a class="dropdown-item" href="#">Log out</a>
-                    </div>
+            <div class="dropdown">
+                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true"
+                    aria-expanded="false">
+                    John Doe
+                </button>
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                    <a class="dropdown-item" href="#">Account</a>
+                    <a class="dropdown-item" href="../user_dash/index.html">Account</a>
+                    <a class="dropdown-item" href="#">Log out</a>
                 </div>
-                </div>
+            </div>
+            </div>
     </nav>
-        <div class="container">
+    <h2>
+    </h2>
+    <div>
+    <div class="container">
         <h1 class="text-center">Auctions - By Title</h1>
         {% for i in auctions %}
-        <h2>{{ i.title }}</h2>
+        <h2>
+            {% if i.fk_media.media_type == 1 %}
+            <i class="fas fa-film"></i>
+            {% else %}
+            <i class="fas fa-tv"></i>
+            {% endif %} {{ i.fk_media.media_title }}
+        </h2>
+        <h3>{{ i.fk_category_id.category_name }}</h3>
         <ul class="list-group">
-             {% for i in categories %}
             <li>
-                <a href="#" class="list-group-item d-flex justify-content-between align-items-center">{{ i.category_name }}
-                    <span class="badge badge-primary badge-pill">3</span>
+                <a href="#" class="list-group-item d-flex  align-items-center">
+                    {% if i.fk_category.category_name == "Drink" %}
+                    <i class="fas fa-coffee"></i>
+                    {% elif i.fk_category.category_name == "Food" %}
+                    <i class="fas fa-utensils"></i>
+                    {% elif i.fk_category.category_name == "Car" %}
+                    <i class="fas fa-car"></i>
+                    {% elif i.fk_category.category_name == "Clothing" %}
+                    <i class="fas fa-fas fa-tshirt"></i>
+                    {% elif i.fk_category.category_name == "Cellphone" %}
+                    <i class="fas fa-mobile-alt"></i>
+                    {% elif i.fk_category.category_name == "Laptop" %}
+                    <i class="fas fa-laptop"></i>
+                    {% elif i.fk_category.category_name == "Electronics" %}
+                    <i class="fas fa-plug"></i>
+                    {% elif i.fk_category.category_name == "Homeware" %}
+                    <i class="fas fa-home"></i>
+                    {% elif i.fk_category.category_name == "Furniture" %}
+                    <i class="fas fa-couch"></i>
+                    {% elif i.fk_category.category_name == "Skincare" %}
+                    <i class="fas fa-child"></i>
+                    {% else %}
+                    <i class="fas fa-bullseye"></i>
+                    {% endif %} {{ i.title }}
                 </a>
             </li>
-            {% endfor %}
         </ul>
         {% endfor %}
     </div>
     <div class="text-center">
         <a href="create" class="btn">Add a new auction</a>
     </div>
-        </div>
-        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
-            crossorigin="anonymous"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
-            crossorigin="anonymous"></script>
-        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js" integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T"
-            crossorigin="anonymous"></script>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js" integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T"
+        crossorigin="anonymous"></script>
 </body>
 
 </html>

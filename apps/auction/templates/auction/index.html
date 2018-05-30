@@ -10,7 +10,12 @@
     <link rel="stylesheet" href="{% static 'user_dash/css/bootstrap.min.css' %}">
     <link rel="stylesheet" href="{% static 'user_dash/css/styles.css' %}">
 </head>
-
+<style>
+    .banner{
+        background-color: #fff;
+        padding: none;
+    }
+</style>
 <body>
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <a class="navbar-brand" href="#">AuctionMTV</a>
@@ -52,7 +57,9 @@
             </div>
     </nav>
     <div class="main jumbotron text-center">
-        <h1>AuctionMTV</h1>
+        <div class="banner">
+            <h1>AuctionMTV</h1>
+        </div>        
     </div>
     <div class="login container text-center">
         <div class="row">
@@ -65,7 +72,7 @@
                         </a>
                     </li>
                     <li>
-                        <a href="#" class="list-group-item d-flex justify-content-between align-items-center">Auctions
+                        <a href="" class="list-group-item d-flex justify-content-between align-items-center">Auctions
                             <span class="badge badge-primary badge-pill">20</span>
                         </a>
                     </li>
@@ -75,12 +82,12 @@
                 <h2>Television Shows</h2>
                 <ul class="list-group">
                     <li>
-                        <a href="#" class="list-group-item d-flex justify-content-between align-items-center">Titles
+                        <a href="by_title" class="list-group-item d-flex justify-content-between align-items-center">Titles
                             <span class="badge badge-primary badge-pill">20</span>
                         </a>
                     </li>
                     <li>
-                        <a href="#" class="list-group-item d-flex justify-content-between align-items-center">Auctions
+                        <a href="by_title" class="list-group-item d-flex justify-content-between align-items-center">Auctions
                             <span class="badge badge-primary badge-pill">10</span>
                         </a>
                     </li>

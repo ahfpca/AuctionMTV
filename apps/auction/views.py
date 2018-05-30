@@ -8,12 +8,17 @@ def index(request):
 def sort_by_title(request):
     context = {
         'categories' : Category.objects.all(),
-        'auctions' : Auction.objects.all()
+        'auctions' : Auction.objects.all(),
+        'media' : Media.objects.all()
     }
     return render(request, 'auction/by_title.html', context)
 
 def sort_by_categ(request):
-    return render(request, 'auction/by_categ.html')
+    context = {
+        'categories' : Category.objects.all(),
+        'auctions' : Auction.objects.all()
+    }
+    return render(request, 'auction/by_categ.html', context)
 
 def create(request):
     context = {
@@ -33,10 +38,14 @@ def process_new_auc(request):
         return redirect('/auction/create')
     else:
         new_category = Category.objects.get(category_id=request.POST['category'])
-        new_auction = Auction.objects.create(title=request.POST['title'], description=request.POST['description'], fk_category=new_category, duration_seconds=request.POST['duration'], starting_bid=request.POST['starting_bid'], current_bid=request.POST['starting_bid'], deadline=request.POST['deadline'])
-        print(request.POST)
-        print('hi')
-        return redirect('/auction/create')
+        user = User.objects.get(user_id=2)
+        # user = User.objects.get(user_id=request.POST['user_id'])
+        media = Media.objects.get(media_id=request.POST['media_id'])
+        new_auction = Auction.objects.create(title=request.POST['title'], description=request.POST['description'], fk_category=new_category, duration_seconds=request.POST['duration'], starting_bid=request.POST['starting_bid'], current_bid=request.POST['starting_bid'], deadline=request.POST['deadline'], fk_user=user, fk_media=media)
+        if 'auction_id' not in request.session:
+            request.session['auction_id'] = new_auction.auction_id
+        request.session['auction_id'] = new_auction.auction_id
+        return redirect('auction/view_auc')
 
 def process_new_media(request):
     errors = Media.objects.media_validator(request.POST)
@@ -58,6 +67,12 @@ def add_media(request):
         'genres' : Genre.objects.all()
     }
     return render(request, 'auction/add_media.html', context)
+
+def view_auc(request):
+    context = {
+         'auction': Auction.objects.get(auction_id=request.session['auction_id'])
+    }
+    return render(request, 'auction/display_auc.html', context)
 
 # def media_form_html(request):
 #     if 'title' not in request.session:
