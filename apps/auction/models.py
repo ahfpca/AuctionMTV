@@ -1,4 +1,5 @@
 from django.db import models
+import datetime
 import re
 CURRENCY_REGEX = re.compile(r'^\d+(?:\.\d+)?')
 YEAR_REGEX = re.compile(r'^(19|20)\d{2}$')
@@ -40,6 +41,9 @@ class Genre (models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
+    def __repr__(self):
+        return "<Genre object: genre_id {}, genre_name: {}>".format(self.genre_id, self.genre_name)
+
 
 class Media (models.Model):
     media_id = models.AutoField(primary_key=True)
@@ -53,7 +57,7 @@ class Media (models.Model):
     objects = MediaManager()
 
     def __repr__(self):
-        return "<Media object: media_title: {}, genre: {}, release_year: {}, type: {}, in_auction: {}>".format(self.media_title, self.genre, self.release_year, self.type, self.in_auction)
+        return "<Media object: media_id {}, media_title: {}, fk_genre: {}, release_year: {}, media_type: {}>".format(self.media_id, self.media_title, self.fk_genre, self.release_year, self.media_type)
 
 
 class Category (models.Model):
@@ -61,6 +65,9 @@ class Category (models.Model):
     category_name = models.CharField(max_length=255)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+
+    def __repr__(self):
+        return "<Category object: category_id {}, category_name: {}>".format(self.category_id, self.category_name)
 
 
 class Auction (models.Model):
@@ -72,15 +79,15 @@ class Auction (models.Model):
     current_bid = models.FloatField()
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-    deadline = models.DateTimeField()
-    fk_category = models.ForeignKey(Category, related_name="fk_auction")
-    fk_media = models.ForeignKey(Media, related_name="fk_auction")
+    deadline = models.DateTimeField(auto_now=True)
+    fk_category = models.ForeignKey(Category, related_name="fk_auction", null=True)
+    fk_media = models.ForeignKey(Media, related_name="fk_auction", null=True)
     # fk_user = models.ForeignKey(User, related_name="fk_auction")
 
     objects = AuctionManager()
     
     def __repr__(self):
-        return "<Auction object: title: {}, category: {}, description: {}, duratmediaion_seconds: {}, starting_bid: {}, current_bid: {}>".format(self.title, self.category, self.description, self.duration_seconds, self.starting_bid, self.current_bid)
+        return "<Auction object: auction_id {}, title: {}, desciption: {}, duration: {}, starting_bid: {}, deadline: {}, fk_category: {}, fk_media: {}>".format(self.auction_id, self.title, self.description, self.duration_seconds, self.starting_bid, self.deadline, self.fk_category, self.fk_media)
 
 
 class Bid (models.Model):
@@ -89,3 +96,6 @@ class Bid (models.Model):
     # fk_user = models.ForeignKey(User, related_name="fk_auction")
     bid_amount = models.FloatField()
     created_at = models.DateTimeField(auto_now_add=True)
+
+    def __repr__(self):
+        return "<Bid object: bid_id {}>".format(self.bid_id, self.fk_auction)

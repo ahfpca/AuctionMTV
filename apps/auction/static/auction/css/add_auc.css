@@ -1,0 +1,26 @@
+a:hover {
+    background-color: #f0f0f0;
+}
+
+.list-group {
+    width: 50%;
+    list-style-type: none;
+    margin: 25px auto;
+}
+
+h2 {
+    width: 50%;
+    margin: auto;
+}
+
+h1 {
+    margin: 25px 0px;
+}
+
+#media_form {
+    display: none;
+}
+
+#choose_media {
+    /* display: none; */
+}

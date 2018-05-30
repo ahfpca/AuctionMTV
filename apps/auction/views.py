@@ -6,13 +6,22 @@ def index(request):
     return render(request, 'auction/index.html')
 
 def sort_by_title(request):
-    return render(request, 'auction/by_title.html')
+    context = {
+        'categories' : Category.objects.all(),
+        'auctions' : Auction.objects.all()
+    }
+    return render(request, 'auction/by_title.html', context)
 
 def sort_by_categ(request):
     return render(request, 'auction/by_categ.html')
 
 def create(request):
-    return render(request, 'auction/add_auction.html')
+    context = {
+        'categories' : Category.objects.all(),
+        'auctions' : Auction.objects.all(),
+        'media' : Media.objects.all()
+    }
+    return render(request, 'auction/add_auction.html', context)
 
 def process_new_auc(request):
     errors = Auction.objects.auction_validator(request.POST)
@@ -23,7 +32,8 @@ def process_new_auc(request):
         print('-'*30 + '>', 'New auction form did not pass validation.')
         return redirect('/auction/create')
     else:
-        new_auction = Auction.objects.create(title=request.POST['title'], description=request.POST['description'], category=request.POST['category'], duration_seconds=request.POST['duration'], starting_bid=request.POST['starting_bid'], current_bid=request.POST['starting_bid'])
+        new_category = Category.objects.get(category_id=request.POST['category'])
+        new_auction = Auction.objects.create(title=request.POST['title'], description=request.POST['description'], fk_category=new_category, duration_seconds=request.POST['duration'], starting_bid=request.POST['starting_bid'], current_bid=request.POST['starting_bid'], deadline=request.POST['deadline'])
         print(request.POST)
         print('hi')
         return redirect('/auction/create')
@@ -43,6 +53,11 @@ def process_new_media(request):
     print('New media form was submitted')
     return redirect('/auction/create')
 
+def add_media(request):
+    context = {
+        'genres' : Genre.objects.all()
+    }
+    return render(request, 'auction/add_media.html', context)
 
 # def media_form_html(request):
 #     if 'title' not in request.session:
