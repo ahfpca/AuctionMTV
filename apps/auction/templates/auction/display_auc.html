@@ -77,6 +77,12 @@
                     <p><strong>Category: </strong>{{ auction.fk_category.category_name }}</p>
                     <p><strong>Posted By: </strong>{{ auction.fk_user.first_name }} {{ auction.fk_user.last_name }}</p>
                 </div>
+                <form action="add_bid" , method="POST">
+                    {% csrf_token %}
+                    <input type="text" name="bid_amount">
+                    <input type="hidden" name="auction_id" value={{auction.auction_id}}>
+                    <input type="submit" value="Place Bid" class="btn">
+                </form>
             </div>
             <div class="col-6">
 

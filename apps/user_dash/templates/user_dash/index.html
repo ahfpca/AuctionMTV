@@ -9,63 +9,62 @@
     <link rel="stylesheet" href="{% static 'user_dash/css/bootstrap.min.css' %}">
     <link rel="stylesheet" href="{% static 'user_dash/css/styles.css' %}">
     <title>User Dashboard</title>
+    <link href="https://fonts.googleapis.com/css?family=Bungee+Shade|Raleway" rel="stylesheet">
 </head>
 <body>
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <nav class="navbar navbar-expand-lg custom-nav">
         <a class="navbar-brand" href="/auction">AuctionMTV</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+            aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
-
+    
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto">
-                <!-- <li class="nav-item active">
-                    <a class="nav-link" href="../index.html">Home<span class="sr-only">(current)</span></a>
-                </li> -->
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    Auctions
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true"
+                        aria-expanded="false">
+                        Auctions
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                    <!-- <a class="dropdown-item" href="../auction/auctionlist.html">All Auctions</a> -->
-                    <a class="dropdown-item" href="/auction/by_title">By Title</a>
-                    <a class="dropdown-item" href="/auction/by_categ">By Category</a>
-                    <!--
-                    <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="#">Something else here</a>
-                    </div>
-                    -->
+                        <a class="dropdown-item" href="/auction/by_title">By Title</a>
+                        <a class="dropdown-item" href="/auction/by_categ">By Category</a>
+    
                 </li>
-                <!--
-                <li class="nav-item">
-                    <a class="nav-link disabled" href="#">Disabled</a>
-                </li>
-                -->
+    
             </ul>
             <form class="form-inline my-2 my-lg-0">
-                <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+                <input class="form-control mr-sm-2 " type="search" placeholder="Search" aria-label="Search">
+                <button class="btn my-2 my-sm-0" id="search-btn" type="submit">Search</button>
                 <p>&nbsp;&nbsp;</p>
             </form>
             {% if request.session.user_uniq %}
-                <div class="dropdown">
-                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        {{ request.session.first_name }} {{ request.session.last_name }}
-                    </button>
-                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                        <a class="dropdown-item" href="/user_dash/edit">Account</a>
-                        <a class="dropdown-item" href="/login_reg/logout">Log out</a>
-                    </div>
+            <div class="dropdown">
+                <button class="btn dropdown-toggle dropdown-btn" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true"
+                    aria-expanded="false">
+                    {{ request.session.first_name }} {{ request.session.last_name }}
+                </button>
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                    <a class="dropdown-item" href="/user_dash/index">User Dashboard</a>
+                    <a class="dropdown-item" href="/user_dash/edit">Account</a>
+                    <a class="dropdown-item" href="/login_reg/logout">Log out</a>
                 </div>
+            </div>
             {% else %}
-                <p class="dField"><a href="/login_reg">Log in</a>&nbsp;or&nbsp;<a href="/login_reg/sign_up">Sign Up</a></p>
+            <p class="dField">
+                <a href="/login_reg">Log in</a>&nbsp;or&nbsp;
+                <a href="/login_reg/sign_up">Sign Up</a>
+            </p>
             {% endif %}
-        </div>
+            </div>
     </nav>
+
 
     <div class="container">
         <br>
-        <h1 class="text-center">User Dashboard</h1>
+        <div class="banner text-center">
+            <h1 class="text-center">User Dashboard</h1>
+        </div>
         <div class="row">
         <!-- General Error -->
         {% if messages %}
