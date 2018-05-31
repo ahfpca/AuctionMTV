@@ -1,27 +1,58 @@
 from django.shortcuts import render, HttpResponse, redirect
+from django.core.urlresolvers import reverse
 from .models import *
 from django.contrib import messages
 
 def index(request):
-    context = {
-        'user' : User.objects.filter(user_uniq=request.session['user_uniq']).first()
-    }
-    print(request.session['user_uniq'])
-    return render(request, 'auction/index.html',context)
+    if "user_uniq" in request.session:
+        hashed_uniq_id = request.session["user_uniq"]
+
+        rec = User.objects.filter(user_uniq = hashed_uniq_id).first()
+
+        if rec:
+            request.session["first_name"] = rec.first_name
+            request.session["last_name"] = rec.last_name
+    return render(request, 'auction/index.html')
 
 def sort_by_title(request):
+    if "user_uniq" in request.session:
+        hashed_uniq_id = request.session["user_uniq"]
+
+    rec = User.objects.filter(user_uniq = hashed_uniq_id).first()
+
+    if rec:
+        request.session["first_name"] = rec.first_name
+        request.session["last_name"] = rec.last_name
     context = {
         'categories' : Category.objects.all(),
-        'auctions' : Auction.objects.all(),
+        'auctions' : Auction.objects.all().order_by("fk_media"),
         'media' : Media.objects.all(),
         'user' : User.objects.filter(user_uniq=request.session['user_uniq']).first()
     }
     return render(request, 'auction/by_title.html', context)
 
 def sort_by_categ(request):
+    if "user_uniq" in request.session:
+        hashed_uniq_id = request.session["user_uniq"]
+
+    rec = User.objects.filter(user_uniq = hashed_uniq_id).first()
+
+    if rec:
+        request.session["first_name"] = rec.first_name
+        request.session["last_name"] = rec.last_name
     context = {
         'categories' : Category.objects.all(),
         'auctions' : Auction.objects.all(),
+        'drink_auc' : Auction.objects.all().filter(fk_category=2),
+        'food' : Auction.objects.all().filter(fk_category=1),
+        'cp' : Auction.objects.all().filter(fk_category=3),
+        'laptop' : Auction.objects.all().filter(fk_category=4),
+        'clothing' : Auction.objects.all().filter(fk_category=5),
+        'elec' : Auction.objects.all().filter(fk_category=6),
+        'homeware' : Auction.objects.all().filter(fk_category=7),
+        'furn' : Auction.objects.all().filter(fk_category=8),
+        'skin' : Auction.objects.all().filter(fk_category=9),
+        'car' : Auction.objects.all().filter(fk_category=10),
         'media' : Media.objects.all(),
         'user' : User.objects.filter(user_uniq=request.session['user_uniq']).first()
     }
@@ -51,7 +82,7 @@ def process_new_auc(request):
         if 'auction_id' not in request.session:
             request.session['auction_id'] = new_auction.auction_id
         request.session['auction_id'] = new_auction.auction_id
-        return redirect('auction/view_auc')
+        return redirect('auction/by_categ.html')
 
 def process_new_media(request):
     errors = Media.objects.media_validator(request.POST)
@@ -74,12 +105,32 @@ def add_media(request):
     }
     return render(request, 'auction/add_media.html', context)
 
-def view_auc(request, id):
+def add_bid(request):
+    user = User.objects.filter(user_uniq=request.session['user_uniq']).first()
+    auction = Auction.objects.filter(auction_id=request.POST['auction_id']).first()
+    bid = Bid.objects.create(bid_amount=request.POST['bid_amount'], fk_auction=auction, fk_user=user)
+    print(bid)
     context = {
-         'auction': Auction.objects.get(auction_id=id),
-         'bids': Bid.objects.all()
+        'genres' : Genre.objects.all()
     }
-    return render(request, 'auction/display_auc.html', context)
+    return redirect(reverse('place_bid', kwargs={'id': request.POST['auction_id']}))
+
+def view_auc(request, id):
+    if not "user_uniq" in request.session:
+        return redirect("/login_reg")
+    else:
+        hashed_uniq_id = request.session["user_uniq"]
+
+        rec = User.objects.filter(user_uniq = hashed_uniq_id).first()
+
+        if rec:
+            request.session["first_name"] = rec.first_name
+            request.session["last_name"] = rec.last_name
+            context = {
+                'auction': Auction.objects.get(auction_id=id),
+                'bids': Bid.objects.all().order_by('-bid_amount')
+            }
+            return render(request, 'auction/display_auc.html', context)
 
 # def media_form_html(request):
 #     if 'title' not in request.session:

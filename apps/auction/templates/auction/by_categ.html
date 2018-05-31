@@ -11,43 +11,18 @@
     <link rel="stylesheet" href="{% static 'auction/css/main.css' %}">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp"
         crossorigin="anonymous">
-
+    <link href="https://fonts.googleapis.com/css?family=Bungee+Shade|Raleway" rel="stylesheet">
 </head>
 
-<style>
-    a:hover {
-        background-color: #f0f0f0;
-    }
-
-    .list-group {
-        width: 50%;
-        list-style-type: none;
-        margin: 25px auto;
-    }
-
-    h2 {
-        width: 50%;
-        margin: auto;
-    }
-
-    h1 {
-        margin: 25px 0px;
-    }
-
-    i {
-        padding-right: 10px;
-    }
-
-</style>
 
 <body>
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <a class="navbar-brand" href="#">AuctionMTV</a>
+    <nav class="navbar navbar-expand-lg custom-nav">
+        <a class="navbar-brand" href="/auction">AuctionMTV</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
             aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
-
+    
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item dropdown">
@@ -56,74 +31,231 @@
                         Auctions
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <a class="dropdown-item" href="by_title">By Title</a>
-                        <a class="dropdown-item" href="by_categ">By Category</a>
-                    </div>
+                        <a class="dropdown-item" href="/auction/by_title">By Title</a>
+                        <a class="dropdown-item" href="/auction/by_categ">By Category</a>
+
                 </li>
+
             </ul>
             <form class="form-inline my-2 my-lg-0">
-                <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+                <input class="form-control mr-sm-2 " type="search" placeholder="Search" aria-label="Search">
+                <button class="btn btn-outline-success my-2 my-sm-0" id="search-btn" type="submit">Search</button>
                 <p>&nbsp;&nbsp;</p>
             </form>
-
+            {% if request.session.user_uniq %}
             <div class="dropdown">
-                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true"
+                <button class="btn dropdown-toggle dropdown-btn" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true"
                     aria-expanded="false">
-                    John Doe
+                    {{ request.session.first_name }} {{ request.session.last_name }}
                 </button>
                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                    <a class="dropdown-item" href="../user_dash/index.html">Dashboard</a>
-                    <a class="dropdown-item" href="#">Account</a>
-                    <a class="dropdown-item" href="#">Log out</a>
+                    <a class="dropdown-item" href="/user_dash/index">User Dashboard</a>
+                    <a class="dropdown-item" href="/user_dash/edit">Account</a>
+                    <a class="dropdown-item" href="/login_reg/logout">Log out</a>
                 </div>
             </div>
-        </div>
+            {% else %}
+            <p class="dField">
+                <a href="/login_reg">Log in</a>&nbsp;or&nbsp;
+                <a href="/login_reg/sign_up">Sign Up</a>
+            </p>
+            {% endif %}
+            </div>
     </nav>
+
     <div class="container">
-        <h1 class="text-center">Auctions - By Category</h1>
-        <h2><i class="fas fa-coffee"></i>Drink</h2>
-        {% for i in auctions %}
-            {% if i.fk_category.category_name == "Drink" %}
+        <div class="banner text-center">
+            <h1 class="text-center" id="auctions_banner">Auctions - By Category</h1>
+        </div>
+            <div class="text-center">
+                <a href="create" class="btn">Add an auction</a>
+            </div>
+        <div class="content" id="category_auc_list">
+                {% if drink_auc %}
+                <h2>
+                    <i class="fas fa-coffee"></i>
+                    Drink
+                </h2>
+                {% endif %}
+                {% for i in drink_auc %}
                 <ul class="list-group">
                     <li>
-                        <a href="#" class="list-group-item d-flex justify-content-between align-items-center">{{ i.title }}
-                        <span class="badge badge-primary badge-pill"></span>
-                        </a>
+                        <a href="view_auc/{{ i.auction_id }}" class="list-group-item d-flex align-items-center">
+                        {% if i.fk_media.media_type == 1 %}
+                            <i class="fas fa-film"></i>
+                        {% else %}
+                            <i class="fas fa-tv"></i>
+                        {% endif %}
+                            {{ i.title }}</a>
                     </li>
                 </ul>
-            {% endif %}
-        {% endfor %}
-        <h2><i class="fas fa-car"></i>Car</h2>
-        {% for i in auctions %}
-            {% if i.fk_category.category_name == "Car" %}
+                {% endfor %}
+                {% if food %}
+                <h2>
+                    <i class="fas fa-utensils"></i>
+                    Food
+                </h2>
+                {% endif %}
+                {% for i in food %}
+                    <ul class="list-group">
+                    <li>
+                        <a href="view_auc/{{ i.auction_id }}" class="list-group-item d-flex align-items-center">
+                            {% if i.fk_media.media_type == 1 %}
+                            <i class="fas fa-film"></i>
+                            {% else %}
+                            <i class="fas fa-tv"></i>
+                            {% endif %} {{ i.title }}</a>
+                    </li>
+                    </ul>
+                {% endfor %}
+                {% if cp %}
+                <h2>
+                    <i class="fas mobile-alt"></i>
+                    Cellphone
+                </h2>
+                {% endif %}
+                {% for i in cp %}
                 <ul class="list-group">
                     <li>
-                        <a href="#" class="list-group-item d-flex justify-content-between align-items-center">{{ i.title }}
-                        <span class="badge badge-primary badge-pill"></span>
-                        </a>
+                        <a href="view_auc/{{ i.auction_id }}" class="list-group-item d-flex align-items-center">
+                            {% if i.fk_media.media_type == 1 %}
+                            <i class="fas fa-film"></i>
+                            {% else %}
+                            <i class="fas fa-tv"></i>
+                            {% endif %} {{ i.title }}</a>
                     </li>
                 </ul>
-            {% endif %}
-        {% endfor %}
-        <h2><i class="fas fa-car"></i>Food</h2>
-        {% for i in auctions %}
-            {% if i.fk_category.category_name == "Food" %}
+                {% endfor %}
+                {% if laptop %}
+                <h2>
+                    <i class="fas fa-laptop"></i>
+                    Laptop
+                </h2>
+                {% endif %}
+                {% for i in laptop %}
                 <ul class="list-group">
                     <li>
-                        <a href="#" class="list-group-item d-flex justify-content-between align-items-center">{{ i.title }}
-                        <span class="badge badge-primary badge-pill"></span>
-                        </a>
+                        <a href="view_auc/{{ i.auction_id }}" class="list-group-item d-flex align-items-center">
+                            {% if i.fk_media.media_type == 1 %}
+                            <i class="fas fa-film"></i>
+                            {% else %}
+                            <i class="fas fa-tv"></i>
+                            {% endif %} {{ i.title }}</a>
                     </li>
                 </ul>
-            {% endif %}
-        {% endfor %}
-
+                {% endfor %}
+                {% if clothing %}
+                <h2>
+                    <i class="fas fa-tshirt"></i>
+                    Clothing
+                </h2>
+                {% endif %}
+                {% for i in clothing %}
+                <ul class="list-group">
+                    <li>
+                        <a href="view_auc/{{ i.auction_id }}" class="list-group-item d-flex align-items-center">
+                            {% if i.fk_media.media_type == 1 %}
+                            <i class="fas fa-film"></i>
+                            {% else %}
+                            <i class="fas fa-tv"></i>
+                            {% endif %} {{ i.title }}</a>
+                    </li>
+                </ul>
+                {% endfor %}
+                {% if elec %}
+                <h2>
+                    <i class="fas fa-plug"></i>
+                    Electronics
+                </h2>
+                {% endif %}
+                {% for i in elec %}
+                <ul class="list-group">
+                    <li>
+                        <a href="view_auc/{{ i.auction_id }}" class="list-group-item d-flex align-items-center">
+                            {% if i.fk_media.media_type == 1 %}
+                            <i class="fas fa-film"></i>
+                            {% else %}
+                            <i class="fas fa-tv"></i>
+                            {% endif %} {{ i.title }}</a>
+                    </li>
+                </ul>
+                {% endfor %}
+                {% if homeware %}
+                <h2>
+                    <i class="fas fa-home"></i>
+                    Homeware
+                </h2>
+                {% endif %}
+                {% for i in homeware %}
+                <ul class="list-group">
+                    <li>
+                        <a href="view_auc/{{ i.auction_id }}" class="list-group-item d-flex align-items-center">
+                            {% if i.fk_media.media_type == 1 %}
+                            <i class="fas fa-film"></i>
+                            {% else %}
+                            <i class="fas fa-tv"></i>
+                            {% endif %} {{ i.title }}</a>
+                    </li>
+                </ul>
+                {% endfor %}
+                {% if furn %}
+                <h2>
+                    <i class="fas fa-couch"></i>
+                    Furniture
+                </h2>
+                {% endif %}
+                {% for i in furn %}
+                <ul class="list-group">
+                    <li>
+                        <a href="view_auc/{{ i.auction_id }}" class="list-group-item d-flex align-items-center">
+                            {% if i.fk_media.media_type == 1 %}
+                            <i class="fas fa-film"></i>
+                            {% else %}
+                            <i class="fas fa-tv"></i>
+                            {% endif %} {{ i.title }}</a>
+                    </li>
+                </ul>
+                {% endfor %}
+                {% if skin %}
+                <h2>
+                    <i class="fas fa-child"></i>
+                    Skincare
+                </h2>
+                {% endif %}
+                {% for i in skin %}
+                <ul class="list-group">
+                    <li>
+                        <a href="view_auc/{{ i.auction_id }}" class="list-group-item d-flex align-items-center">
+                            {% if i.fk_media.media_type == 1 %}
+                            <i class="fas fa-film"></i>
+                            {% else %}
+                            <i class="fas fa-tv"></i>
+                            {% endif %} {{ i.title }}</a>
+                    </li>
+                </ul>
+                {% endfor %}
+                {% if car %}
+                <h2>
+                    <i class="fas fa-car"></i>
+                    Cars
+                </h2>
+                {% endif %}
+                {% for i in car %}
+                <ul class="list-group">
+                    <li>
+                        <a href="view_auc/{{ i.auction_id }}" class="list-group-item d-flex align-items-center">
+                            {% if i.fk_media.media_type == 1 %}
+                            <i class="fas fa-film"></i>
+                            {% else %}
+                            <i class="fas fa-tv"></i>
+                            {% endif %} {{ i.title }}</a>
+                    </li>
+                </ul>
+                {% endfor %}
 
     </div>
-    <div class="text-center">
-        <a href="create" class="btn">Add a new auction</a>
     </div>
+
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
         crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
