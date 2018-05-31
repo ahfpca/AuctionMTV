@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>{{ auctions.title}}</title>
+    <title>{{ auction.title }}</title>
     <meta name="viewport" content="width=device-width, initial-scale=1"> {% load static %}
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB"
         crossorigin="anonymous">
@@ -50,21 +50,46 @@
             </div>
         </div>
     </nav>
-    <div class="list-group container">
-        <h1>{{ auction.title }}</h1>
-        <h3>{{ auction.description }}</h3>
+    <div class="container">
+        <div class="row">
+            <div class="col-6">
+                <h1>{{ auction.title }}</h1>
+                <h3>{{ auction.description }}</h3>
+                <p><strong>Duration in seconds: </strong>{{ auction.duration_seconds }}</p>
+                <p><strong>Media Title: </strong>{{ auction.fk_media.media_title }}</p>
+                <p><strong>Deadline to Bid: </strong>{{ auction.deadline }}</p>
+                <p><strong>Category: </strong>{{ auction.fk_category.category_name }}</p>
+                <p><strong>Posted By: </strong>{{ auctions.fk_user.first_name }} {{ auctions.fk_user.last_name }}</p>
+            </div>
+            <div class="col-6">
+                <form action="", method="POST">
+                    <input type="text">
+                    <input type="submit" value="Place Bid" class="btn btn-primary">
+                    <button class="btn btn-primary" value="Go Back">Go Back</button>
+                </form>
 
-        <p><strong>Duration in seconds: </strong>{{ auction.duration_seconds }}</p>
-        <p><strong>Media Title: </strong>{{ auction.fk_media.media_title }}</p>
-        <p><strong>Deadline to Bid: </strong>{{ auction.deadline }}</p>
-        <p><strong>Category: </strong>{{ auction.fk_category.category_name }}</p>
-        <p><strong>Posted By: </strong>{{ auctions.fk_user.first_name }} {{ auctions.fk_user.last_name }}</p>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Bidder's Name</th>
+                            <th>Amount</th>
+                            <th>Date</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                            {% for i in bids %}
+                        <tr>
+                            <td>{{ i.fk_user.first_name }}</td>
+                            <td>{{ i.bid_amount }}</td>
+                            <td>{{ i.created_at }}</td>
+                            {% endfor %}
+                        </tr>
+                    </tbody>
+                </table>
 
-        <form action="", method="POST">
-            <input type="text">
-            <input type="submit" value="Place Bid" class="btn btn-primary">
-            <button class="btn btn-primary" value="Go Back"></button>
-        </form>
+            </div>
+        </div>
+
     </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"

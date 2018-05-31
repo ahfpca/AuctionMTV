@@ -2,10 +2,8 @@ a:hover {
     background-color: #f0f0f0;
 }
 
-.list-group {
-    width: 50%;
-    list-style-type: none;
-    margin: 25px auto;
+.container {
+    margin-top: 20px;
 }
 
 h2 {
@@ -17,10 +15,10 @@ h1 {
     margin: 25px 0px;
 }
 
-#media_form {
-    display: none;
+table {
+    margin-top: 10px;
 }
 
-#choose_media {
-    /* display: none; */
+thead {
+    background-color: grey;
 }

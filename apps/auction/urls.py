@@ -9,8 +9,10 @@ urlpatterns = [
     url(r'process_auc', views.process_new_auc),
     url(r'process_med', views.process_new_media),
     url(r'add_media', views.add_media),
-    url(r'view_auc', views.view_auc),
+    url(r'view_auc/(?P<id>\d+)', views.view_auc),
     url(r'^$', views.index),
     # url(r'^auction/generate_form', views.generate_form)
     # url(r'^auction/media_form.html', views.media_form_html)
 ]
+
+
