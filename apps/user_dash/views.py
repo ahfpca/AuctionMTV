@@ -16,7 +16,6 @@ def index(request):
         if rec:
             request.session["first_name"] = rec.first_name
             request.session["last_name"] = rec.last_name
-            request.session["email"] = rec.email
             return render(request, "user_dash/index.html")
 
     # if user_uniq is present but is not found in db, then it should be altered!
