@@ -10,15 +10,18 @@
         crossorigin="anonymous">
     <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
     <link rel="stylesheet" href="{% static 'auction/css/add_auc.css' %}">
+    <link href="https://fonts.googleapis.com/css?family=Bungee+Shade|Raleway" rel="stylesheet">
+
 </head>
 
 <body>
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <a class="navbar-brand" href="#">AuctionMTV</a>
+    <nav class="navbar navbar-expand-lg custom-nav">
+        <a class="navbar-brand" href="/auction">AuctionMTV</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
             aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
+    
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item dropdown">
@@ -27,32 +30,45 @@
                         Auctions
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <a class="dropdown-item" href="../auction/by_title.html">By Title</a>
-                        <a class="dropdown-item disabled" href="#">By Category</a>
-                    </div>
+                        <a class="dropdown-item" href="/auction/by_title">By Title</a>
+                        <a class="dropdown-item" href="/auction/by_categ">By Category</a>
+    
                 </li>
+    
             </ul>
             <form class="form-inline my-2 my-lg-0">
-                <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+                <input class="form-control mr-sm-2 " type="search" placeholder="Search" aria-label="Search">
+                <button class="btn btn-outline-success my-2 my-sm-0" id="search-btn" type="submit">Search</button>
                 <p>&nbsp;&nbsp;</p>
             </form>
+            {% if request.session.user_uniq %}
             <div class="dropdown">
-                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true"
+                <button class="btn dropdown-toggle dropdown-btn" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true"
                     aria-expanded="false">
-                    John Doe
+                    {{ request.session.first_name }} {{ request.session.last_name }}
                 </button>
                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                    <a class="dropdown-item" href="../user_dash/index.html">Dashboard</a>
-                    <a class="dropdown-item" href="#">Account</a>
-                    <a class="dropdown-item" href="#">Log out</a>
+                    <a class="dropdown-item" href="/user_dash/index">
+                        {{ request.session.first_name }}'s Dashboard
+                    </a>
+                    <a class="dropdown-item" href="/user_dash/edit">Account</a>
+                    <a class="dropdown-item" href="/login_reg/logout">Log out</a>
                 </div>
             </div>
-        </div>
+            {% else %}
+            <p class="dField">
+                <a href="/login_reg">Log in</a>&nbsp;or&nbsp;
+                <a href="/login_reg/sign_up">Sign Up</a>
+            </p>
+            {% endif %}
+            </div>
     </nav>
     <div class="list-group container">
-        <h3>Create a new auction</h3>
-        <form action="/auction/process_auc" , method="POST" , id="auction_form">
+        <div class="banner text-center">
+            <h1>Create a new auction</h1>
+        </div>
+        <div class="form-style" style="color: #fff">
+            <form action="process_auc" , method="POST">
             {% csrf_token %}
             <div class="form-group">
                 <label for="Title">Title:</label>
@@ -84,9 +100,9 @@
                     <option value={{i.media_id}}>{{i.media_title}}</option>
                     {% endfor %}
                 </select>
-                <span="text-small">(Don't see the movie or show you're looking for? Add a new record
+                <p style="color:white">(Don't see the movie or show you're looking for? Add a new record
                     <a href="add_media">here</a>.)
-                    </span>
+                </p>
             </div>
             <div class="form-group">
                 <label for="starting_bid">Starting Bid:</label>
@@ -109,6 +125,7 @@
         </ul>
         {% endfor %} {% endif %}
         <p>
+        </div>
     </div>
     </div>
 

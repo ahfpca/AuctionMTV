@@ -6,14 +6,18 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>AuctionMTV</title>
     {% load static %}
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp"
+        crossorigin="anonymous">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="{% static 'user_dash/css/bootstrap.min.css' %}">
+    <link href="https://fonts.googleapis.com/css?family=Bungee+Shade|Raleway" rel="stylesheet">
+
     <link rel="stylesheet" href="{% static 'auction/css/index.css' %}">
 </head>
 
 <body>
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <a class="navbar-brand" href="#">AuctionMTV</a>
+    <nav class="navbar navbar-expand-lg custom-nav">
+        <a class="navbar-brand" href="/auction">AuctionMTV</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
             aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -21,69 +25,91 @@
 
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto">
+                <!-- <li class="nav-item active">
+                        <a class="nav-link" href="../index.html">Home<span class="sr-only">(current)</span></a>
+                    </li> -->
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true"
                         aria-expanded="false">
                         Auctions
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <a class="dropdown-item" href="by_title">By Title</a>
-                        <a class="dropdown-item" href="by_categ">By Category</a>
-                    </div>
+                        <!-- <a class="dropdown-item" href="../auction/auctionlist.html">All Auctions</a> -->
+                        <a class="dropdown-item" href="/auction/by_title">By Title</a>
+                        <a class="dropdown-item" href="/auction/by_categ">By Category</a>
+                        <!--
+                        <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="#">Something else here</a>
+                        </div>
+                        -->
                 </li>
+                <!--
+                    <li class="nav-item">
+                        <a class="nav-link disabled" href="#">Disabled</a>
+                    </li>
+                    -->
             </ul>
             <form class="form-inline my-2 my-lg-0">
-                <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+                <input class="form-control mr-sm-2 " type="search" placeholder="Search" aria-label="Search">
+                <button class="btn btn-outline-success my-2 my-sm-0 search-btn" type="submit">Search</button>
                 <p>&nbsp;&nbsp;</p>
             </form>
-
+            {% if request.session.user_uniq %}
             <div class="dropdown">
-                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true"
+                <button class="btn dropdown-toggle dropdown-btn" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true"
                     aria-expanded="false">
-                    {{ user.first_name}} {{user.last_name}}
+                    {{ request.session.first_name }} {{ request.session.last_name }}
                 </button>
                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                    <a class="dropdown-item" href="/user_dash/index">Dashboard</a>
-                    <a class="dropdown-item" href="#">Account</a>
+                    <a class="dropdown-item" href="/user_dash/index">User Dashboard</a>
+                    <a class="dropdown-item" href="/user_dash/edit">Account</a>
                     <a class="dropdown-item" href="/login_reg/logout">Log out</a>
                 </div>
             </div>
+            {% else %}
+            <p class="dField">
+                <a href="/login_reg">Log in</a>&nbsp;or&nbsp;
+                <a href="/login_reg/sign_up">Sign Up</a>
+            </p>
+            {% endif %}
             </div>
     </nav>
+
     <div class="main jumbotron text-center">
-        <div class="banner">
-            <h1>AuctionMTV</h1>
-        </div>        
+        <div class="banner text-center">
+            <h1 id="top">Auction</h1>
+            <h1>MTV</h1>
+        </div>
     </div>
     <div class="login container text-center">
-        <div class="row">
-            <div class="col-md-6">
-                <h2>Movies</h2>
+        <div class="row justify-content-around">
+            <div class="col-5">
+                <h2><i class="fas fa-film"></i> Movies</h2>
                 <ul class="list-group">
                     <li>
                         <a href="#" class="list-group-item d-flex justify-content-between align-items-center">Titles
-                            <span class="badge badge-primary badge-pill">10</span>
+
                         </a>
                     </li>
                     <li>
                         <a href="" class="list-group-item d-flex justify-content-between align-items-center">Auctions
-                            <span class="badge badge-primary badge-pill">20</span>
+
                         </a>
                     </li>
                 </ul>
             </div>
-            <div class="col-md-6">
-                <h2>Television Shows</h2>
+            <div class="col-5">
+                <h2>
+                <i class="fas fa-tv"></i> Television Shows</h2>
                 <ul class="list-group">
                     <li>
                         <a href="by_title" class="list-group-item d-flex justify-content-between align-items-center">Titles
-                            <span class="badge badge-primary badge-pill">20</span>
+
                         </a>
                     </li>
                     <li>
                         <a href="by_title" class="list-group-item d-flex justify-content-between align-items-center">Auctions
-                            <span class="badge badge-primary badge-pill">10</span>
+
                         </a>
                     </li>
                 </ul>
