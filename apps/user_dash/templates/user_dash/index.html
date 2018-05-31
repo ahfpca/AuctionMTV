@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     {% load static %}
+    {% load humanize %}
     <!-- Bootstrap -->
     <link rel="stylesheet" href="{% static 'user_dash/css/bootstrap.min.css' %}">
     <link rel="stylesheet" href="{% static 'user_dash/css/styles.css' %}">
@@ -112,7 +113,7 @@
                                     <th scope="col" class="text-center">Date</th>
                                     <th scope="col">Title</th>
                                     <th scope="col">Category</th>
-                                    <th scope="col" class="text-center">Companies</th>
+                                    <!-- <th scope="col" class="text-center">Companies</th> -->
                                     <th scope="col" class="text-center">Deadline</th>
                                     <th scope="col" class="text-center">Bids</th>
                                     <th scope="col" class="text-center">Max Bid</th>
@@ -121,77 +122,42 @@
                                 </tr>
                             </thead>
                             <tbody>
+                                {% for rec in aucRecords %}
                                 <tr>
-                                    <th scope="row" class="text-center">1</th>
-                                    <td class="text-center">5/25/2018</td>
-                                    <td>Blacklist S5-E10</td>
-                                    <td>Cell Phones</td>
-                                    <td class="text-center">Level 2</td>
-                                    <td class="text-center">5/30/2018</td>
-                                    <td class="text-center">8</td>
-                                    <td class="text-right">$18,000</td>
-                                    <td class="text-center">Open</td>
+                                    <th scope="row" class="text-center">{{rec.row}}</th>
+                                    <td class="text-center">{{rec.date|date:"m/d/Y"}}</td>
+                                    <td>{{rec.title}}</td>
+                                    <td>{{rec.category}}</td>
+                                    <!-- <td class="text-center">{{rec.companies}}</td> -->
+                                    <td class="text-center">{{rec.deadline|date:"m/d/Y"}}</td>
+                                    <td class="text-center">{{rec.bids}}</td>
+                                    <td class="text-right">${{rec.max_bid|floatformat:2|intcomma}}</td>
+                                    <td class="text-center">{{rec.state}}</td>
                                     <td class="text-center">
-                                        <button class="btn btn-danger btn-sm">Delete</button>
+                                        {% if rec.btn_delete %}
+                                            <form action="" method="post">
+                                                {% csrf_token %}
+                                                <input type="hidden" name="auction_id" id="auction_id" value="{{ rec.auction_id }}">
+                                                <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                                            </form>
+                                        {% endif %}
+                                        {% if rec.btn_connect %}
+                                            <form action="" method="post">
+                                                {% csrf_token %}
+                                                <input type="hidden" name="auction_id" id="auction_id" value="{{ rec.auction_id }}">
+                                                <button class="btn btn-success btn-sm">Connect to Winner</button>
+                                            </form>
+                                        {% endif %}
+                                        {% if rec.btn_edit %}
+                                            <form action="" method="post">
+                                                {% csrf_token %}
+                                                <input type="hidden" name="auction_id" id="auction_id" value="{{ rec.auction_id }}">
+                                                <button class="btn btn-primary btn-sm">Edit</button>
+                                            </form>
+                                        {% endif %}
                                     </td>
                                 </tr>
-                                <tr>
-                                    <th scope="row" class="text-center">2</th>
-                                    <td class="text-center">5/25/2018</td>
-                                    <td>Blacklist S5-E10</td>
-                                    <td>Cars</td>
-                                    <td class="text-center">Level 2</td>
-                                    <td class="text-center">5/30/2018</td>
-                                    <td class="text-center">3</td>
-                                    <td class="text-right">$13,000</td>
-                                    <td class="text-center">Open</td>
-                                    <td class="text-center">
-                                        <button class="btn btn-danger btn-sm">Delete</button>
-                                    </td>
-                                </tr>
-                                <tr class="alert-danger">
-                                    <th scope="row" class="text-center">3</th>
-                                    <td class="text-center">5/18/2018</td>
-                                    <td>Blacklist S5-E9</td>
-                                    <td>Drinks</td>
-                                    <td class="text-center">Level 2</td>
-                                    <td class="text-center">5/25/2018</td>
-                                    <td class="text-center">15</td>
-                                    <td class="text-right">$8,500</td>
-                                    <td class="text-center">Closed</td>
-                                    <td class="text-center">
-                                        <button class="btn btn-success btn-sm">Connect to Winner</button>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <th scope="row" class="text-center">4</th>
-                                    <td class="text-center">5/9/2018</td>
-                                    <td>Avengers: Peacemaker</td>
-                                    <td>Laptops</td>
-                                    <td class="text-center">Level 1</td>
-                                    <td class="text-center">5/30/2018</td>
-                                    <td class="text-center">6</td>
-                                    <td class="text-right">$118,000</td>
-                                    <td class="text-center">Open</td>
-                                    <td class="text-center">
-                                        <button class="btn btn-danger btn-sm">Delete</button>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <th scope="row" class="text-center">5</th>
-                                    <td class="text-center">5/9/2018</td>
-                                    <td>Avengers: Peacemaker</td>
-                                    <td>Cars</td>
-                                    <td class="text-center">Level 1</td>
-                                    <td class="text-center">5/30/2018</td>
-                                    <td class="text-center">0</td>
-                                    <td class="text-right">$0</td>
-                                    <td class="text-center">Open</td>
-                                    <td class="text-center">
-                                        <button class="btn btn-primary btn-sm">Edit</button>
-                                        <button class="btn btn-danger btn-sm">Delete</button>
-                                    </td>
-                                </tr>
+                                {% endfor %}
                             </tbody>
                         </table>
                         <button class="btn btn-primary">New Auction</button>
