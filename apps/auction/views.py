@@ -3,20 +3,27 @@ from .models import *
 from django.contrib import messages
 
 def index(request):
-    return render(request, 'auction/index.html')
+    context = {
+        'user' : User.objects.filter(user_uniq=request.session['user_uniq']).first()
+    }
+    print(request.session['user_uniq'])
+    return render(request, 'auction/index.html',context)
 
 def sort_by_title(request):
     context = {
         'categories' : Category.objects.all(),
         'auctions' : Auction.objects.all(),
-        'media' : Media.objects.all()
+        'media' : Media.objects.all(),
+        'user' : User.objects.filter(user_uniq=request.session['user_uniq']).first()
     }
     return render(request, 'auction/by_title.html', context)
 
 def sort_by_categ(request):
     context = {
         'categories' : Category.objects.all(),
-        'auctions' : Auction.objects.all()
+        'auctions' : Auction.objects.all(),
+        'media' : Media.objects.all(),
+        'user' : User.objects.filter(user_uniq=request.session['user_uniq']).first()
     }
     return render(request, 'auction/by_categ.html', context)
 
@@ -38,9 +45,8 @@ def process_new_auc(request):
         return redirect('/auction/create')
     else:
         new_category = Category.objects.get(category_id=request.POST['category'])
-        user = User.objects.get(user_id=2)
-        # user = User.objects.get(user_id=request.POST['user_id'])
-        media = Media.objects.get(media_id=request.POST['media_id'])
+        user = User.objects.filter(user_uniq = request.session['user_uniq']).first()
+        media = Media.objects.filter(media_id=request.POST['media_id']).first()
         new_auction = Auction.objects.create(title=request.POST['title'], description=request.POST['description'], fk_category=new_category, duration_seconds=request.POST['duration'], starting_bid=request.POST['starting_bid'], current_bid=request.POST['starting_bid'], deadline=request.POST['deadline'], fk_user=user, fk_media=media)
         if 'auction_id' not in request.session:
             request.session['auction_id'] = new_auction.auction_id
@@ -68,9 +74,10 @@ def add_media(request):
     }
     return render(request, 'auction/add_media.html', context)
 
-def view_auc(request):
+def view_auc(request, id):
     context = {
-         'auction': Auction.objects.get(auction_id=request.session['auction_id'])
+         'auction': Auction.objects.get(auction_id=id),
+         'bids': Bid.objects.all()
     }
     return render(request, 'auction/display_auc.html', context)
 

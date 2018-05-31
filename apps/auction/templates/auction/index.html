@@ -8,14 +8,9 @@
     {% load static %}
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="{% static 'user_dash/css/bootstrap.min.css' %}">
-    <link rel="stylesheet" href="{% static 'user_dash/css/styles.css' %}">
+    <link rel="stylesheet" href="{% static 'auction/css/index.css' %}">
 </head>
-<style>
-    .banner{
-        background-color: #fff;
-        padding: none;
-    }
-</style>
+
 <body>
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <a class="navbar-brand" href="#">AuctionMTV</a>
@@ -46,12 +41,12 @@
             <div class="dropdown">
                 <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true"
                     aria-expanded="false">
-                    John Doe
+                    {{ user.first_name}} {{user.last_name}}
                 </button>
                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                     <a class="dropdown-item" href="/user_dash/index">Dashboard</a>
                     <a class="dropdown-item" href="#">Account</a>
-                    <a class="dropdown-item" href="#">Log out</a>
+                    <a class="dropdown-item" href="/login_reg/logout">Log out</a>
                 </div>
             </div>
             </div>

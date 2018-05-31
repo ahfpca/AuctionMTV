@@ -79,7 +79,7 @@
         <h3>{{ i.fk_category_id.category_name }}</h3>
         <ul class="list-group">
             <li>
-                <a href="#" class="list-group-item d-flex  align-items-center">
+                <a href="view_auc/{{ i.auction_id }}" class="list-group-item d-flex  align-items-center">
                     {% if i.fk_category.category_name == "Drink" %}
                     <i class="fas fa-coffee"></i>
                     {% elif i.fk_category.category_name == "Food" %}
